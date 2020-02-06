@@ -27,3 +27,7 @@ The above cloud-native application was manually configured using Web console UIs
 - (Theoretically deployed) Working public IP address to see "Hello World from BenchSci!" in a web browser
 - Basic Documentation (README.md) and architecture diagram
 - Avoid: Unnecessary abstractions in the form of configuration templates and/or modules
+
+## Solution:
+
+
