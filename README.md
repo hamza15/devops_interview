@@ -30,4 +30,4 @@ The above cloud-native application was manually configured using Web console UIs
 
 ## Solution:
 
-
+![alt text](Benchsci.png)
