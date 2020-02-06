@@ -1,19 +1,46 @@
-# You're free to change the jobs and the workflow logic as needed.
-# Doc: https://circleci.com/docs/2.0/getting-started/#running-your-first-circleci-build
 version: 2.1
-jobs:
-  install:
-  test:
-  deploy:
 
+jobs:
+  run_tests:
+    docker:
+      - image: circleci/python:3.7.4
+    steps:
+      - checkout
+      - run:
+          name: Install Python Dependencies
+          command: |
+            echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV && source $BASH_ENV
+            pip install --user -r webserver/requirements.txt
+      - run:
+          name: Run Unit Tests
+          command: |
+            pytest --junitxml=test-reports/junit.xml --html=test-reports/pytest_report.html --self-contained-html
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+  deploy:
+    docker:
+      - image: circleci/python:3.7.4
+    steps:
+      - checkout
+      - run:
+          name: Run Deploy Script
+          command: |
+            pip3 install awscli --upgrade --user
+            sudo killall -9 apt-get || true && sudo apt-get update && sudo apt-get install -y zip
+            zip -r deployment.$(date +%y%m%d_%H%M).zip *
+            aws s3 cp deployment.$(date +%y%m%d_%H%M).zip s3://benchsci-test/
+            aws deploy create-deployment --application-name benchsci --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name benchsci-group --s3-location bucket=benchsci-test,key=deployment.$(date +%y%m%d_%H%M).zip,bundleType=zip
+
+            
 workflows:
- version: 2
- deploy-server:
-   jobs:
-     - install
-     - test:
-         requires:
-           - install
-     - deploy:
-         requires:
-           - deploy
+  build_test:
+    jobs:
+      - run_tests
+      - deploy:
+           requires:
+             - run_tests # Only run deploy job once the build job has completed
+           filters:
+             branches:
+               only: master
