@@ -48,7 +48,7 @@ Steps to replicate:
 - Clone this repository and change directories to the Terraform folder.
 - Run the following commands to deploy your infrastructure:
 
-      	>  terraform init
+        >  terraform init
         >  terraform plan
         >  terraform apply
 
