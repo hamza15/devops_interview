@@ -54,7 +54,7 @@ Steps to replicate:
 
 Note: Since the mission statement didn't require the DevOps tools like CircleCI, AWS CodeDeploy etc abstracted, unnecessary abstractions were avoided. Please note that in order to use AWS CodeDeploy, and S3 as a source repository for revisions of your application you do require AWS IAM roles to be created for AWS CodeDeploy, AWS EC2 and S3 Bucket Policies. The details and steps are covered at https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-codedeploy.html
 
-*PS: If you would like to ssh into your EC2 and check configurations, a Key value with the name "Docker" has been entered into main.tf. You can replace this with name of Key pair you would like to associate with your EC2 and use it to SSH in. You would require to change SSH security group rules to allow SSH access however.*
+*PS: If you would like to ssh into your EC2 and check configurations, a Key value with the name "Docker" has been entered into main.tf. You can replace this with the name of the Key Pair you would like to associate with your EC2 and use it to SSH in. You would have to change SSH security group rules to allow SSH access, since our permissions don't allow it.*
 
 # CI/CD
 
