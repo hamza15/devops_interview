@@ -68,6 +68,7 @@ Steps to replicate:
 - Sign up for CircleCI and authenticate with Github to allow access to this repository.
 - Create an S3 bucket to store code revisions. (Create a bucket policy to allow CircleCI to access this bucket)
 - Navigate to AWS CodeDeploy in the UI amd create an Application, Deployment Group, IAM Role for AWS CodeDeploy and select your EC2 Tag as your deployment target. These steps can also be done via CLI.)
+- Once you are finished, you are ready to test. The appspec.yml file in our config takes care of copying the revision of our source code to our EC2 and runs scripts from inside the Script folder to start and stop our application during deployment.
 
 *Note: AWS CodeDeploy requires an agent running on your EC2, which in our case is already done via a user script passed to our EC2 at launch. This user script covers installation of basic tools and application requirements like pip and Flask.*
 
