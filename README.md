@@ -60,12 +60,13 @@ Note: Since the mission statement didn't require the DevOps tools like CircleCI,
 
 The mission statement states CircleCI as a requirement for the build and deployment of a simple Hello World application to a VM on the cloud. The solution looks for a commit in the master branch which serves as a triger to start our CI/CD pipeline. After installing dependencies from the requirements.txt file, it runs a unit test against our Flask application. This test looks for a 200 OK status code when our application is started and also conducts a sanity test to confirm "Hello World from Benchsci!" is produced. Two reports are generated as a result of our unit tests. The deploy jobs installs dependencies to run aws cli commands, packages our source code, pushes it to S3 as a Zip, and calls AWS CodeDeploy to deploy that revision to our EC2 instance. 
 
-*Note: To authorize resource deployments from CircleCI to AWS, please configure AWS Access Keys in your CircleCI project. If you are using a dedicated CircleCI server, you should use IAM Roles instead of Access Keys.*
+*Note: To authorize resource deployments from CircleCI to AWS, please configure AWS Access Keys in your CircleCI project. If you are using a dedicated CircleCI server, you should use IAM Roles instead of Access Keys. Also, add an environment variable on your CircleCI project for the default AWS region closest to you.*
 
 Steps to replicate:
 
 - Fork this repository.
 - Sign up for CircleCI and authenticate with Github to allow access to this repository.
+- Add environment variable in CircleCI
 - Create an S3 bucket to store code revisions. (Create a bucket policy to allow CircleCI to access this bucket)
 - Navigate to AWS CodeDeploy in the UI amd create an Application, Deployment Group, IAM Role for AWS CodeDeploy and select your EC2 Tag as your deployment target. These steps can also be done via CLI or captured with Terraform in a repository you maintain for all your DevOps tools shared across your organization.)
 - Once you are finished, you are ready to test. The appspec.yml file in our config takes care of copying the revision of our source code to our EC2 and runs scripts from inside the Script folder to start and stop our application during deployment.
