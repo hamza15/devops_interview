@@ -52,4 +52,27 @@ Steps to replicate:
         >  terraform plan
         >  terraform apply
 
+Note: Since the mission statement didn't require the DevOps tools like CircleCI, AWS CodeDeploy etc abstracted, unnecessary abstractions were avoided. Please note that in order to use AWS CodeDeploy, and S3 as a source repository for revisions of your application you do require AWS IAM roles to be created for AWS CodeDeploy, AWS EC2 and S3 Bucket Policies. The details and steps are covered at https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-codedeploy.html
+
+*PS: If you would like to ssh into your EC2 and check configurations, a Key value with the name "Docker" has been entered into main.tf. You can replace this with name of Key pair you would like to associate with your EC2 and use it to SSH in. You would require to change SSH security group rules to allow SSH access however.  
+
+# CI/CD
+
+The mission statement states CircleCI as a requirement for the build and deployment of a simple Hello World application to a VM on the cloud. The solution looks for a commit in the master branch which serves as a triger to start our CI/CD pipeline. After installing dependencies from the requirements.txt file, it runs a unit test against our Flask application. This test looks for a 200 OK status code when our application is started and also conducts a sanity test to confirm "Hello World from Benchsci!" is produced. Two reports are generated as a result of our unit tests. The deploy jobs installs dependencies to run aws cli commands, packages our source code, pushes it to S3 as a Zip, and calls AWS CodeDeploy to deploy that revision to our EC2 instance. 
+
+*Note: To authorize resource deployments from CircleCI to AWS, please configure AWS Access Keys in your CircleCI project. If you are using a dedicated CircleCI server, you should you IAM Roles instead of Access Keys.*
+
+Steps to replicate:
+
+- Fork this repository.
+- Sign up for CircleCI and authenticate with Github to allow access to this repository.
+- Create an S3 bucket to store code revisions. (Create a bucket policy to allow CircleCI to access this bucket)
+- Navigate to AWS CodeDeploy in the UI amd create an Application, Deployment Group, IAM Role for AWS CodeDeploy and select your EC2 Tag as your deployment target. These steps can also be done via CLI.)
+
+*Note: AWS CodeDeploy requires an agent running on your EC2, which in our case is already done via a user script passed to our EC2 at launch. This user script covers installation of basic tools and application requirements like pip and Flask.*
+
+Finally, make a change in your configuration and trigger the CI/CD pipeline. A new revision of your application should be visible at the Public-IP/hello endpoint on your browser. :triumph:
+
+
+
 ![alt text](Benchsci-Arch.png)
