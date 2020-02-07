@@ -30,4 +30,26 @@ The above cloud-native application was manually configured using Web console UIs
 
 ## Solution:
 
+The following statement provies a brief overview of the technical architecture. The solution is split into two parts. The first part covers infrastructure as code (IaC) and the second part covers the CI/CD pipeline. 
+
+# Infrastructure as Code:
+
+The mission statement states that the initial configuration was manually setup and our goal is to capture this configuration with Infrastructure as Code. This allows the DevOps team to deploy infrastructure with the push of a button, version control all infrastructure changes and prevent future outages. This solution deploys the following resources:
+
+- VPC, Internet Gateway, Public Subnet, Route Table, Security Group, Ingress/Egress Rules & EC2 Instance.
+
+Steps to replicate:
+
+*Note: These steps can be run from your local/development machine.*
+
+- Install Terraform
+- Install awscli
+- Log into AWS Console and create Access Keys (Only recommended for local machine. If you run a CI/CD tool like CircleCI/Jenkins on a dedicated EC2, please attach an AWS IAM role with permissions to provision the above listed resources.)
+- Clone this repository and change directories to the Terraform folder.
+- Run the following commands to deploy your infrastructure:
+
+      	>  terraform init
+        >  terraform plan
+        >  terraform apply
+
 ![alt text](Benchsci-Arch.png)
