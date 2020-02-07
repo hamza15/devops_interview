@@ -45,6 +45,7 @@ Steps to replicate:
 - Install Terraform
 - Install awscli
 - Log into AWS Console and create Access Keys (Only recommended for local machine. If you run a CI/CD tool like CircleCI/Jenkins on a dedicated EC2, please attach an AWS IAM role with permissions to provision the above listed resources.)
+- Run *aws configure* at your terminal to setup your aws environment variables. 
 - Clone this repository and change directories to the Terraform folder.
 - Run the following commands to deploy your infrastructure:
 
