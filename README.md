@@ -101,9 +101,9 @@ One build phase is successful, deploy phase starts with an install of awscli. Th
 
 *Note: In order to run awscli commands certain environment variable were set in place to allow for a proper configuration. These variables are as follows:*
 
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_DEFAULT_REGION
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_DEFAULT_REGION
 
 Although not mentioned in the mission statement, our design involved AWS CodeDeploy and S3. When considering deployment methods we had three main options to consider. First method was a manual deployment via a transfer of source code (scp) and then a running a script to stop the old revision and start our new revision. Secondly, we had the option of using AWS CodeDeploy  via CircleCI orbs to deliver our application to our infrastructure. Third and our choice for this mission was using AWS CodeDeploy cli command with S3.
 
